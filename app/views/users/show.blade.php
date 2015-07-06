@@ -1,0 +1,1 @@
+/home/vagrant/Code/inventory-app-2/app/views/users/show.blade.php
