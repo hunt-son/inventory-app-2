@@ -21,10 +21,19 @@ class UsersController extends \BaseController {
 	 */
 	public function create()
 	{
-        if (! Auth::check())
-            return View::make('users.index');
-        else
-            return Redirect::back();
+        $validator = Validator::make($data = Input::all(), User::$rules);
+
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+        $user = new User;
+        $user->username = $data['username'];
+        $user->password = Hash::make($data['username']);
+        $user->email = $data['email'];
+        $user->save();
+        Flash::success('You have Created a New User!');
+        Redirect::To('/');
 	}
 
 	/**
@@ -34,24 +43,16 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), User::$rules);
+        $data = Input::all();
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
+        $user = User::where('id', $data['id'])->first();
+        dd($user->password);
+        $data['current'] = Hash::make("'".$data['old']."'");
+        if ($user->password != $data['current']) {}
 
-        $attempt = Auth::attempt([
-            'username' =>$data['username'],
-            'password' => $data['password']
-        ]);
-        if ($attempt)
-        {
-            return View::make('dashboard.index');
-        }
-        else return Redirect::back()->withInput();
-
-//        Auth::attempt(Input::only('username', 'password'))
+        User::create($data);
+        Flash::success('You have created a new user!');
+        return Redirect::back();
 	}
 
 	/**
@@ -63,7 +64,6 @@ class UsersController extends \BaseController {
 	public function show($id)
 	{
 		$user = User::findOrFail($id);
-
 		return View::make('users.show', compact('user'));
 	}
 
@@ -97,10 +97,25 @@ class UsersController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
+
 		$user->update($data);
 
 		return Redirect::route('users.index');
 	}
+
+    public function controlRole() {
+        $data = Input::all();
+        $id = $data['id'];
+        $user = User::where('id','=', $id)->first();
+        if ($user->hasRole('Owner')) {
+            $user['role'] = 'Owner';
+        }
+        elseif ($user->hasRole('Member')) {
+            $user['role'] = 'Member';
+        }
+        else $user['role'] = 'None';
+        return $user;
+    }
 
 	/**
 	 * Remove the specified user from storage.

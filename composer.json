@@ -9,7 +9,8 @@
       "fzaninotto/faker": "~1.4",
       "indatus/dispatcher": "~1.4",
       "andheiberg/notify": "1.*",
-      "codesleeve/laravel-stapler": "1.0.*"
+      "codesleeve/laravel-stapler": "1.0.*",
+		"intervention/image": "^2.3"
 	},
   "require-dev": {
     "way/generators": "~2.0"

@@ -1,6 +1,6 @@
 <?php
 
-class DashboardController extends \BaseController {
+class DashboardsController extends \BaseController {
 
 	/**
 	 * Display a listing of dashboards
@@ -9,11 +9,13 @@ class DashboardController extends \BaseController {
 	 */
 	public function index()
 	{
-        $products = Product::all();
-        $records = Records::all();
-        $projections = Projections::all();
 
-		return View::make('dashboards.index', compact('records', 'products', 'projections'));
+        $products = Product::all();
+        $records = Record::all();
+        $manufacturers = Manufacturer::all();
+
+		return View::make('Dashboard.index', compact('records', 'products', 'manufacturers'));
+
 	}
 
 	/**
@@ -23,7 +25,8 @@ class DashboardController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('dashboards.create');
+
+        return 'success';
 	}
 
 	/**
@@ -53,9 +56,13 @@ class DashboardController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$dashboard = Dashboard::findOrFail($id);
 
-		return View::make('dashboards.show', compact('dashboard'));
+        $products = Product::all();
+        $records = Record::all();
+        $manufacturers = Manufacturer::all();
+
+
+        return View::make('Dashboard.index', compact('records', 'products', 'manufacturers'));
 	}
 
 	/**
@@ -64,12 +71,13 @@ class DashboardController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
-		$dashboard = Dashboard::find($id);
+        public function edit($product_id)
+    {
+        $records = Record::where('product_id', $product_id)->get();
+        $products = Product::where('product_id', $product_id)->first();
 
-		return View::make('dashboards.edit', compact('dashboard'));
-	}
+        return View::make('dashboard.edit', compact('records', 'products'));
+    }
 
 	/**
 	 * Update the specified dashboard in storage.
@@ -101,9 +109,14 @@ class DashboardController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Dashboard::destroy($id);
-
-		return Redirect::route('dashboards.index');
+        if(Product::where('id', $id)->delete() == true) {
+            Record::where("id", $id)->delete();
+            Daily::where("id", $id)->delete();
+            Flash::success('You have deleted a product!');
+            return "success";
+        } else {
+            return "failure";
+        }
 	}
 
 }

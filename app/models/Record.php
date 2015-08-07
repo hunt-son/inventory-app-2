@@ -8,6 +8,15 @@ class Record extends \Eloquent {
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $fillable = ['status', 'amount', 'authorization', 'inhouse', 'amount', 'action', 'product_id'];
+
+
+    public function dashboard(){
+        return $this -> belongsTo('Dashboard');
+    }
+
+    public function daily(){
+        return $this -> belongsTo('Daily');
+    }
 
 }

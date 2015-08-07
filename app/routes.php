@@ -11,16 +11,42 @@
 |
 */
 
-
-Route::get('/', function()
+if( !Auth::check() )
 {
-    return View::make('dashboard/index');
-})->before('auth');
+    Route::get('/', 'SessionsController@create');
+}
+else Route::get('/','DashboardsController@index');
+
+
+Route::get('registration', function()
+{
+    $user = Auth::getUser();
+    if (! $user->hasRole('Owner'))
+    {
+        return Reditect::back()->with('flash_message', 'You need to be an Owner to register a user.');
+    }
+    return View::make('registration.create');
+});
+
+Route::get('help', function() {
+    return View::make('help.index');
+});
+
+
 
 Route::resource('records','RecordsController');
 Route::resource('users','UsersController');
+
 Route::resource('products', 'ProductsController');
+
 Route::resource('Dashboard', 'DashboardsController');
 
-Route::get('login','UsersController@create');
-Route::get('logout','UsersController@destroy');
+Route::resource('daily', 'DailyController');
+Route::resource('sessions', 'SessionsController', ['only' => ['store', 'create', 'destroy']]);
+Route::resource('password_resets','PasswordResetsController');
+
+Route::resource('manufacturers', 'ManufacturersController');
+
+Route::get('login','SessionsController@create');
+Route::get('logout','SessionsController@destroy');
+Route::post('role', 'UsersController@controlRole');

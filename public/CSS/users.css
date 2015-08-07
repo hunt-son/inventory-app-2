@@ -1,11 +1,32 @@
--gradient(to bottom, rgba(255, 255, 255, 0) 96%, #1abc9c 4%);
-background-position: -200px 0;
-background-size: h1, input::-webkit-input-placeholder, button {
+.alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 18px;
+    color: palevioletred;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.alert .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    line-height: 18px;
+}
+
+.alert-error {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+h1, input::-webkit-input-placeholder {
     font-family: 'roboto', sans-serif;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
-
 h1 {
     text-align: center;
     height: 100px;
@@ -19,6 +40,8 @@ h1 {
 }
 
 form {
+    -gradient(to bottom, rgba(255, 255, 255, 0) 96%, #1abc9c 4%);
+    background-position: -200px 0;
     box-sizing: border-box;
     width: 260px;
     margin: 100px auto 0;
@@ -58,7 +81,7 @@ input:focus::-webkit-input-placeholder, input:valid::-webkit-input-placeholder {
     visibility: visible !important;
 }
 
-button {
+.submit {
     border: none;
     background: #1abc9c;
     cursor: pointer;
@@ -69,7 +92,7 @@ button {
     margin-left: 25px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 }
-button:hover {
+.submit:hover {
     -webkit-transform: translateY(-3px);
     -ms-transform: translateY(-3px);
     transform: translateY(-3px);

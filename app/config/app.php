@@ -123,8 +123,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Laracasts\Flash\FlashServiceProvider',
-        'Codesleeve\LaravelStapler\LaravelStaplerServiceProvider'
-
+        'Codesleeve\LaravelStapler\LaravelStaplerServiceProvider',
+        'Intervention\Image\ImageServiceProvider'
 	),
 
 	/*
@@ -191,6 +191,9 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+        'Flash' => 'Laracasts\Flash\Flash',
+        'Image' => 'Intervention\Image\Facades\Image'
+
 
 	),
 
